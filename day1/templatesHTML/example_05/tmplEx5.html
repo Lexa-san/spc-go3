@@ -1,0 +1,46 @@
+<!--
+Функция hasPermission теперь должна включать вашу логику, которая определяет, включена функция или нет. 
+В funcMapEx1.go мы определили template.FuncMap, который сопоставил имя метода («hasPermission») с функцией, 
+которая принимает два аргумента (пользователя и строку), а затем возвращает true или false. 
+Затем мы вызвали функцию template.New(), чтобы создать новый шаблон, 
+и вызвали метод Funcs() для этого нового шаблона, чтобы определить наши пользовательские функции, 
+а затем, наконец, мы проанализировали наш файл tmplEx5.html как источник для нашего шаблона.
+
+-->
+
+{{if hasPermission .User "feature-a"}}
+  <div class="feature">
+    <h3>Feature A</h3>
+    <p> У вас есть доступ к этой опции</p>
+  </div>
+{{else}}
+  <div class="feature disabled">
+    <h3>Feature A</h3>
+    <p>To enable Feature A please upgrade your plan</p>
+  </div>
+{{end}}
+
+{{if hasPermission .User "feature-b"}}
+  <div class="feature">
+    <h3>Feature B</h3>
+    <p>У вас есть доступ к этой опции</p>
+  </div>
+{{else}}
+  <div class="feature disabled">
+    <h3>Feature B</h3>
+    <p>To enable Feature B please upgrade your plan</p>
+  </div>
+{{end}}
+
+<style>
+  .feature {
+    border: 1px solid #eee;
+    padding: 10px;
+    margin: 5px;
+    width: 45%;
+    display: inline-block;
+  }
+  .disabled {
+    color: #ccc;
+  }
+</style>

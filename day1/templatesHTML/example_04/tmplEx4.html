@@ -1,0 +1,43 @@
+<!--
+call - это функция, уже предоставленная пакетом html/template, которая вызывает первый 
+переданный ей аргумент (в нашем случае - функцию .User.HasPermission), 
+используя остальные аргументы в качестве аргументов вызова функции.
+
+-->
+
+{{if (call .User.HasPermission "feature-a")}}
+  <div class="feature">
+    <h3>Feature A</h3>
+    <p> У вас есть доступ к этой опции</p>
+  </div>
+{{else}}
+  <div class="feature disabled">
+    <h3>Feature A</h3>
+    <p>To enable Feature A please upgrade your plan</p>
+  </div>
+{{end}}
+
+{{if (call .User.HasPermission "feature-b")}}
+  <div class="feature">
+    <h3>Feature B</h3>
+    <p>У вас есть доступ к этой опции</p>
+  </div>
+{{else}}
+  <div class="feature disabled">
+    <h3>Feature B</h3>
+    <p>To enable Feature B please upgrade your plan</p>
+  </div>
+{{end}}
+
+<style>
+  .feature {
+    border: 1px solid #eee;
+    padding: 10px;
+    margin: 5px;
+    width: 45%;
+    display: inline-block;
+  }
+  .disabled {
+    color: #ccc;
+  }
+</style>
