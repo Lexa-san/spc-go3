@@ -18,12 +18,13 @@ func NewStore(db *sql.DB) *Store {
 	}
 }
 
-func (store Store) execTX(ctx context.Context, fn func(*Queries) error) error {
-	//tx, err := store.db.BeginTx(ctx, &sql.TxOptions{})
-	//type TxOptions struct {
-	//	Isolation IsolationLevel
-	//	ReadOnly bool
-	//}
+func (store *Store) execTx(ctx context.Context, fn func(*Queries) error) error {
+	// tx, err := store.db.BeginTx(ctx, &sql.TxOptions{})
+	// type TxOptions {
+	// 	Isolation IsolationLevel
+	// 	ReadOnly  bool
+	// }
+
 	tx, err := store.db.BeginTx(ctx, nil)
 	if err != nil {
 		return err
@@ -54,10 +55,10 @@ type TransferTxResult struct {
 	ToEntry     Entry    `json:"to_entry"`
 }
 
-func (store Store) TransferTx(ctx context.Context, arg TransferTxParams) (TransferTxResult, error) {
+func (store *Store) TransferTx(ctx context.Context, arg TransferTxParams) (TransferTxResult, error) {
 	var result TransferTxResult
 
-	err := store.execTX(ctx, func(q *Queries) error {
+	err := store.execTx(ctx, func(q *Queries) error {
 		var err error
 
 		result.Transfer, err = q.CreateTransfer(ctx, CreateTransferParams{
@@ -94,7 +95,7 @@ func (store Store) TransferTx(ctx context.Context, arg TransferTxParams) (Transf
 			return err
 		}
 
-		// amount out of account2
+		// amount to account2
 		result.ToAccount, err = q.AddAccountBalance(ctx, AddAccountBalanceParams{
 			ID:     arg.ToAccountID,
 			Amount: arg.Amount,
@@ -105,6 +106,8 @@ func (store Store) TransferTx(ctx context.Context, arg TransferTxParams) (Transf
 
 		return nil
 	})
+
+	// update account's balance
 
 	return result, err
 }
