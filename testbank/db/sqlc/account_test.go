@@ -3,10 +3,11 @@ package db
 import (
 	"context"
 	"database/sql"
-	"github.com/stretchr/testify/require"
 	"simplebank/utils"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/require"
 )
 
 func createRandomAccount(t *testing.T) Account {
@@ -15,9 +16,7 @@ func createRandomAccount(t *testing.T) Account {
 		Balance:  utils.RandomMoney(),
 		Currency: utils.RandomCurrency(),
 	}
-
 	account, err := testQueries.CreateAccount(context.Background(), arg)
-	//account.Owner = "Anna" // to check FAIL
 
 	require.NoError(t, err)
 	require.NotEmpty(t, account)
@@ -56,13 +55,12 @@ func TestUpdateAccount(t *testing.T) {
 		ID:      account1.ID,
 		Balance: utils.RandomMoney(),
 	}
-
 	account2, err := testQueries.UpdateAccount(context.Background(), arg)
 
 	require.NoError(t, err)
 	require.NotEmpty(t, account2)
 
-	require.Equal(t, arg.ID, account2.ID)
+	require.Equal(t, account1.ID, account2.ID)
 	require.Equal(t, account1.Owner, account2.Owner)
 	require.Equal(t, arg.Balance, account2.Balance)
 	require.Equal(t, account1.Currency, account2.Currency)
@@ -71,7 +69,6 @@ func TestUpdateAccount(t *testing.T) {
 
 func TestDeleteAccount(t *testing.T) {
 	account1 := createRandomAccount(t)
-
 	err := testQueries.DeleteAccount(context.Background(), account1.ID)
 	require.NoError(t, err)
 
@@ -79,7 +76,6 @@ func TestDeleteAccount(t *testing.T) {
 	require.Error(t, err)
 	require.Empty(t, account2)
 	require.EqualError(t, err, sql.ErrNoRows.Error())
-
 }
 
 func TestListAccounts(t *testing.T) {
