@@ -20,3 +20,33 @@ GET http://localhost:8080/accounts/1
 ###
 GET http://localhost:8080/accounts?page_id=10&page_size=5
 
+###
+POST http://localhost:8080/transfers
+
+{
+    "from_account_id": 1,
+    "to_account_id": 2,
+    "amount": 10,
+    "currency": "AUD"
+}
+
+###
+POST http://localhost:8080/transfers
+
+{
+    "from_account_id": 1,
+    "to_account_id": 2,
+    "amount": 10,
+    "currency": "RUB"
+}
+
+###
+POST http://localhost:8080/users
+
+{
+    "username": "ivpetro3",
+    "password": "secret",
+    "full_name": "Ivan Petrovich",
+    "email": "ivpetro3@email.com"
+}
+
