@@ -21,3 +21,13 @@ POST http://localhost:8080/transfers
     "amount": 10,
     "currency": "AUD"
 }
+
+###
+POST http://localhost:8080/transfers
+
+{
+    "from_account_id": 1,
+    "to_account_id": 2,
+    "amount": 10,
+    "currency": "RUB"
+}
