@@ -1,11 +1,11 @@
 package api
 
 import (
-	"github.com/gin-gonic/gin/binding"
-	"github.com/go-playground/validator/v10"
 	db "simplebank/db/sqlc"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
+	"github.com/go-playground/validator/v10"
 )
 
 type Server struct {
@@ -21,15 +21,15 @@ func NewServer(store db.Store) *Server {
 		v.RegisterValidation("currency", validCurrency)
 	}
 
-	router.POST("/accounts", server.createAccount)
+	router.POST("/accounts", server.CreateAccount)
 	router.GET("/accounts/:id", server.getAccount)
 	router.GET("/accounts", server.listAccount)
 
 	router.POST("/transfers", server.createTransfer)
 
 	server.router = router
-	return server
 
+	return server
 }
 
 func (server *Server) Start(address string) error {

@@ -88,15 +88,10 @@ func (store *SQLStore) TransferTx(ctx context.Context, arg TransferTxParams) (Tr
 			return err
 		}
 
-		// amount out of account1
 		if arg.FromAccountID < arg.ToAccountID {
-			result.FromAccount, result.ToAccount, err = AddMoney(ctx, q,
-				arg.FromAccountID, -arg.Amount,
-				arg.ToAccountID, arg.Amount)
+			result.FromAccount, result.ToAccount, err = addMoney(ctx, q, arg.FromAccountID, -arg.Amount, arg.ToAccountID, arg.Amount)
 		} else {
-			result.ToAccount, result.FromAccount, err = AddMoney(ctx, q,
-				arg.ToAccountID, arg.Amount,
-				arg.FromAccountID, -arg.Amount)
+			result.ToAccount, result.FromAccount, err = addMoney(ctx, q, arg.ToAccountID, arg.Amount, arg.FromAccountID, -arg.Amount)
 		}
 		return err
 
@@ -105,7 +100,7 @@ func (store *SQLStore) TransferTx(ctx context.Context, arg TransferTxParams) (Tr
 	return result, err
 }
 
-func AddMoney(
+func addMoney(
 	ctx context.Context,
 	q *Queries,
 	accountID1 int64,
@@ -125,8 +120,5 @@ func AddMoney(
 		ID:     accountID2,
 		Amount: amount2,
 	})
-	if err != nil {
-		return
-	}
 	return
 }
