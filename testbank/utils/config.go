@@ -5,10 +5,10 @@ import "github.com/spf13/viper"
 type Config struct {
 	DBDriver      string `mapstructure:"DB_DRIVER"`
 	DBSource      string `mapstructure:"DB_SOURCE"`
-	ServerAddress string `mapstructure:"SERVER_ADDRESS""`
+	ServerAddress string `mapstructure:"SERVER_ADDRESS"`
 }
 
-// LoadConfig
+// LoadConfig ...
 func LoadConfig(path string) (config Config, err error) {
 	viper.AddConfigPath(path)
 	viper.SetConfigName("app")

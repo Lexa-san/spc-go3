@@ -1,9 +1,10 @@
 package utils
 
 import (
+	"testing"
+
 	"github.com/stretchr/testify/require"
 	"golang.org/x/crypto/bcrypt"
-	"testing"
 )
 
 func TestPassword(t *testing.T) {
@@ -24,4 +25,5 @@ func TestPassword(t *testing.T) {
 	require.NoError(t, err)
 	require.NotEmpty(t, hashedPassword2)
 	require.NotEqual(t, hashedPassword1, hashedPassword2)
+
 }

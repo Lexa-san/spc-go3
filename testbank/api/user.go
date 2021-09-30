@@ -1,12 +1,13 @@
 package api
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/lib/pq"
 	"net/http"
 	db "simplebank/db/sqlc"
 	"simplebank/utils"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/lib/pq"
 )
 
 type createUserRequest struct {
@@ -18,7 +19,7 @@ type createUserRequest struct {
 
 type createUserResponse struct {
 	Username          string    `json:"username"`
-	Fullname          string    `json:"full_name"`
+	FullName          string    `json:"full_name"`
 	Email             string    `json:"email"`
 	PasswordChangedAt time.Time `json:"password_changed_at"`
 	CreatedAt         time.Time `json:"created_at"`
@@ -31,7 +32,6 @@ func (server *Server) createUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
-
 	hashedPassword, err := utils.HashPassword(req.Password)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
@@ -43,7 +43,7 @@ func (server *Server) createUser(ctx *gin.Context) {
 		FullName:       req.Fullname,
 		Email:          req.Email,
 	}
-
+	//arg := db.CreateUserParams{} //only for testing
 	user, err := server.store.CreateUser(ctx, arg)
 	if err != nil {
 		if pqErr, ok := err.(*pq.Error); ok {
@@ -53,14 +53,12 @@ func (server *Server) createUser(ctx *gin.Context) {
 				return
 			}
 		}
-
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
-
 	rsp := createUserResponse{
 		Username:          user.Username,
-		Fullname:          user.FullName,
+		FullName:          user.FullName,
 		Email:             user.Email,
 		PasswordChangedAt: user.PasswordChangedAt,
 		CreatedAt:         user.CreatedAt,

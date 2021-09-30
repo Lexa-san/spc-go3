@@ -3,9 +3,10 @@ package api
 import (
 	"database/sql"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	db "simplebank/db/sqlc"
+
+	"github.com/gin-gonic/gin"
 )
 
 type TransferRequest struct {
@@ -53,12 +54,12 @@ func (server *Server) validAccount(ctx *gin.Context, accountID int64, currency s
 			ctx.JSON(http.StatusNotFound, errorResponse(err))
 			return false
 		}
-
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return false
 	}
+
 	if account.Currency != currency {
-		err := fmt.Errorf("account [%d] currency mismatch: %v vs %v", accountID, account.Currency, currency)
+		err := fmt.Errorf("account [%d] currency mismatch: %v vs %v", account.ID, account.Currency, currency)
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return false
 	}
