@@ -1,0 +1,8 @@
+
+go install github.com/golang/mock/mockgen@latest
+
+mockgen -destination=mocks/mock_doer.go -package=mocks mockgen-example/doer Doer
+
+
+go get github.com/golang/mock/mockgen@v1.6.0
+mockgen -destination db/mock/store.go -package mockdb simplebank/db/sqlc Store

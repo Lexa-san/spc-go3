@@ -1,0 +1,95 @@
+﻿https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubuntu-20-04-ru
+Step 1. 
+curl -fsSL https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+
+sudo apt-get update
+sudo apt-get install -y mongodb-org
+
+Step 2.
+sudo systemctl enable mongod
+sudo systemctl start mongodb.service
+mongo --eval 'db.runCommand({ connectionStatus: 1 })'
+
+Step 3.
+sudo mkdir -p /data/db
+sudo chown -R `id -un` /data/db
+
+Step 4.
+sudo systemctl stop mongodb.service
+
+Step 5.
+### Run server manually
+mongod
+sudo systemctl start mongodb.service
+
+Step 6.
+### Run client
+mongo
+
+Step 7.
+show databases
+use appDB
+show databases
+
+
+Step 8. Work with MongoDB in shell
+### insert data in DB
+db.movies.insertOne({ _id: 1, name: 'First film', year: 2021, directors: ['I.I. Ivanov'], writers: ['Petr Petrov', 'Sidr Sidorov'], boxOffice: { budget:150000, gross:257000}})
+// out -> { "acknowledged" : true, "insertedId" : 5 }
+
+db.movies.insertOne({name: 'Second film', year: 2020, directors: ['I.I. Smirnov'], writers: ['Aleksey Alekseev', 'Mikhail Mikhailov'], boxOffice: { budget:100000, gross:310000}})
+// out -> {"acknowledged" : true, "insertedId" : ObjectId("61558ad54ebbafdec4d709ed") }
+
+db.movies.find() // result is all documents
+
+db.movies.findOne() // result is the oldest document
+
+db.movies.find({year: {$eq: 2020}}) // the same as SELECT * FROM movies WHERE year=2020;
+
+###################################################
+https:/​/​docs.​mongodb.​com/manual/​reference/​operator/​
+Operator Function
+$lt 	 Less than
+$gt 	 Greater than
+$in 	 In the
+$lte 	 Less than or equal to
+$ne 	 Not equal to
+###################################################
+
+db.movies.find({'boxOffice.budget': {$gt: 100000}})
+
+db.movies.find({'boxOffice.budget': {$gt: 100000}, year: 2019}) //comma is like 'AND'
+
+db.movies.find({$or: [{'boxOffice.budget': {$gt: 140000}}, {year: 2020}]})
+
+
+Step 9. CRUD operations
+### db.movies.update(CRITERIA, SET)
+db.movies.update({"_id": 5}, {$set: {"boxOffice.budget": 200000}})
+
+db.movies.deleteOne({"_id": ObjectId("61558ad54ebbafdec4d709ed")})
+
+
+Step 10.
+### Indexes: https:/​/​docs.​mongodb.​com/​manual/​indexes/​
+### Tool: query planner 
+db.movies.createIndex({year: 1})
+db.movies.find({year: {$lt: 2022}})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
