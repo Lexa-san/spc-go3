@@ -39,3 +39,19 @@ POST http://localhost:8080/users
     "email": "ivpetro3@email.com",
     "password": "secret"
 }
+
+###
+POST http://localhost:8080/users/login
+
+{
+    "username": "ivpetro3",
+    "password": "secret"
+}
+
+###
+POST http://localhost:8080/users/login
+
+{
+    "username": "ivpetro2",
+    "password": "secret"
+}
